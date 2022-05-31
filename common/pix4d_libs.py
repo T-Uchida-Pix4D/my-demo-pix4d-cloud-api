@@ -20,12 +20,31 @@ def get_jwt(client_id, client_secret):
   return resp.json()["access_token"]
 
 
-def create_project():
+def headers(token):
+  return {"Authorization": f"Bearer {token}"}
+
+
+def create_project(name, token):
   print("create_project")
+  url = f"{PROJECT_URL}/"
+  resp = requests.post(url, json={"name": name}, headers=headers(token))
+  resp.raise_for_status()   # if the response is not JSON format, it raises an error
+  return resp.json()
 
 
-def project_s3_creds():
+def _get_params(share_token=None):
+  params = {}
+  if share_token is not None:
+    params["shareToken"] = share_token
+  return params
+
+
+def project_s3_creds(project_id, token, share_token=None):  # share_token?
   print("project_s3_cred")
+  url = f"{PROJECT_URL}/{project_id}/s3_credentials/"
+  resp = requests.get(url, headers=headers(token), params=_get_params(share_token)) # 'params' is query string
+  resp.raise_for_status()
+  return resp.json() 
 
 
 def register_image():
