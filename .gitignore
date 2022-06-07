@@ -1,2 +1,4 @@
 images/*
 common/__pycache__/*
+.ipynb_checkpoints/*
+ortho_thumb.png

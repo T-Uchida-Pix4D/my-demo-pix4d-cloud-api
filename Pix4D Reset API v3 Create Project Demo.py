@@ -3,7 +3,7 @@ import boto3
 from progressbar import ProgressBar
 from random import randint
 from pathlib import Path, PurePosixPath
-from common.pix4d_libs import get_jwt, create_project, project_s3_creds, register_image, start_processing, get_project
+from common.pix4d_libs import get_jwt, create_project, project_s3_creds, register_images, start_processing, get_project
 
 PIX4D_CLIENT_ID = os.environ['PIX4D_CLIENT_ID']
 PIX4D_CLIENT_SECRET = os.environ['PIX4D_CLIENT_SECRET']
@@ -49,3 +49,17 @@ with ProgressBar(max_value=len(images)) as pbar:
     pbar.update(i)
 
 print(keys)
+
+
+# Register images
+ret_register = register_images(project_id, my_jwt, keys)
+print(ret_register)
+
+
+# Start processing
+ret_start = start_processing(project_id, my_jwt)
+print(ret_start)
+
+
+# Check process status
+print(get_project(project_id, my_jwt)['public_status'])

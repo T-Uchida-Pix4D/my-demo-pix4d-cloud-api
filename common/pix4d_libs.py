@@ -47,13 +47,52 @@ def project_s3_creds(project_id, token, share_token=None):  # share_token?
   return resp.json() 
 
 
-def register_image():
+def register_images(project_id, token, image_keys):
   print("register_image")
+  url = f"{PROJECT_URL}/{project_id}/inputs/bulk_register/"
+  resp = requests.post(
+    url, headers=headers(token), json={"input_file_keys": image_keys}
+  )
+  resp.raise_for_status()
+  return resp.json
 
 
-def start_processing():
+def start_processing(project_id, token):
   print("start_processing")
+  url = f"{PROJECT_URL}/{project_id}/start_processing/"
+  resp = requests.post(url, headers=headers(token))
+  resp.raise_for_status()
+  return resp.json
 
 
-def get_project():
+def get_project(project_id, token, share_token=None):
   print("get_project")
+  url = f"{PROJECT_URL}/{project_id}/"
+  resp = requests.get(url, headers=headers(token), params=_get_params(share_token))
+  resp.raise_for_status()
+  return resp.json()
+
+
+def get_outputs(project_id, token, share_token=None):
+  print("get_outputs")
+  url = f"{PROJECT_URL}/{project_id}/outputs/"
+  resp = requests.get(url, headers=headers(token), params=_get_params(share_token))
+  resp.raise_for_status()
+  return resp.json()
+
+
+def get_s3_client(project_id, token, share_token=None):
+  s3_creds = project_s3_creds(project_id, token, share_token)
+  return boto3.client(
+    "s3",
+    aws_access_key_id=s3_creds["access_key"],
+    aws_secret_access_key=s3_creds["secret_key"],
+    aws_session_token=s3_creds["session_token"]
+  )
+
+
+
+
+
+
+
