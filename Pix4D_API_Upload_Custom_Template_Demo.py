@@ -1,9 +1,8 @@
 '''
 This is a demo script for uploading custom template file for processing option.
-The detail of processing with a custom template is described in the following like.
+The detail of processing with a custom template is described in the following document.
 https://developer.pix4d.com/cloud-api/index.html#section/1.-Standard-processing-with-PIX4Dmapper
 '''
-
 
 import os
 import boto3    # for s3_client
@@ -12,18 +11,18 @@ from progressbar import ProgressBar
 from random import randint  # for creating project id randomly
 from pathlib import Path
 
-#Set your costom template fileame (.tmpl)
+##### Set your costom template fileame (.tmpl) #####
 CUSTOM_TEMPLATE = "my_custom_template.tmpl"
-
-CLOUD_URL = "https://cloud.pix4d.com" 
-PROJECT_URL = f"{CLOUD_URL}/project/api/v3/projects"
-
+assert CUSTOM_TEMPLATE
 
 # Set the environment variable for client id and password beforehand, or assign value directory.
 PIX4D_CLIENT_ID = os.environ['PIX4D_CLIENT_ID']
 PIX4D_CLIENT_SECRET = os.environ['PIX4D_CLIENT_SECRET']
 assert PIX4D_CLIENT_ID
 assert PIX4D_CLIENT_SECRET
+
+CLOUD_URL = "https://cloud.pix4d.com" 
+PROJECT_URL = f"{CLOUD_URL}/project/api/v3/projects"
 
 
 def get_jwt(client_id, client_secret):
@@ -149,7 +148,6 @@ def main():
 
   # Register your custom template as extra file
   register_extra_file(project_id, my_jwt, custom_template_s3_key)
-  
 
   # Start processing with processing options
   processing_options = {
