@@ -11,7 +11,7 @@ from progressbar import ProgressBar
 from random import randint  # for creating project id randomly
 from pathlib import Path
 
-##### Set your costom template fileame (.tmpl) #####
+##### Set your custom template filename (.tmpl) #####
 CUSTOM_TEMPLATE = "my_custom_template.tmpl"
 assert CUSTOM_TEMPLATE
 
@@ -154,6 +154,7 @@ def main():
     "custom_template_s3_key": custom_template_s3_key,
     "custom_template_s3_bucket": s3_creds["bucket"]
   }
+
   start_processing(project_id, my_jwt, processing_options)
 
 
