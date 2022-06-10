@@ -13,7 +13,7 @@ from random import randint  # for creating project id randomly
 from pathlib import Path
 
 #Set your costom template fileame (.tmpl)
-CUSTOM_TEMPLATE = "my_custome_template.tmpl"
+CUSTOM_TEMPLATE = "my_custom_template.tmpl"
 
 CLOUD_URL = "https://cloud.pix4d.com" 
 PROJECT_URL = f"{CLOUD_URL}/project/api/v3/projects"
@@ -81,7 +81,7 @@ def register_images(project_id, token, image_keys):
   return resp.json
 
 
-def register_extra_file(project_id, token, extra_file, file_key):
+def register_extra_file(project_id, token, file_key):
   url = f"{PROJECT_URL}/{project_id}/extras/"
   resp = requests.post(
     url, headers=headers(token), json={"file_key": file_key}
@@ -148,7 +148,7 @@ def main():
   )
 
   # Register your custom template as extra file
-  register_extra_file(project_id, token, custom_template_s3_key)
+  register_extra_file(project_id, my_jwt, custom_template_s3_key)
   
 
   # Start processing with processing options
